@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "strict": true,
+    "declaration": true,
+    "outDir": "dist",
+    "types": ["node", "jest", "jest-extended"],
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "lib": ["ES2019"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
