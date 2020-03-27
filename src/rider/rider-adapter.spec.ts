@@ -37,21 +37,21 @@ describe('rider adapter', () => {
     })
     it('updates existing', () => {
         templateToRows.mockReturnValueOnce([
-            fragment().ele('overridetemp')
+            fragment().ele('overridetemp').txt("456")
         ])
         
         const result = merge([overrideTemplate], existing)
 
         assertEquals(`
             <anything key="123">
-                <overridetemp></overridetemp>
+                <overridetemp>456</overridetemp>
             </anything>
         `, result)
         expect(templateToRows).toHaveBeenCalledWith(overrideTemplate)
     })
     it('adds new', () => {
         templateToRows.mockReturnValueOnce([
-            fragment().ele('newtemp')
+            fragment().ele('newtemp').txt("456")
         ])
         
         const result = merge([appendTemplate], existing)
@@ -60,7 +60,7 @@ describe('rider adapter', () => {
             <anything key="123">
                 <s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Shortcut/@EntryValue">ae</s:String>
                 <s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Anything">True</s:Boolean>
-                <newtemp></newtemp>
+                <newtemp>456</newtemp>
             </anything>
         `, result)
         expect(templateToRows).toHaveBeenCalledWith(appendTemplate)
