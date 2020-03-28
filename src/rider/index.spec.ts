@@ -1,7 +1,7 @@
 const templateToRows = jest.fn()
 jest.mock('./template-converter', () => ({ templateToRows }))
 
-import { merge } from './rider-adapter'
+import { merge } from './index'
 import { Template } from '../types'
 import { fragment } from 'xmlbuilder2'
 
@@ -62,6 +62,20 @@ describe('rider adapter', () => {
                 <s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Anything">True</s:Boolean>
                 <newtemp>456</newtemp>
             </anything>
+        `, result)
+        expect(templateToRows).toHaveBeenCalledWith(appendTemplate)
+    })
+    it('adds without existing content', () => {
+        templateToRows.mockReturnValueOnce([
+            fragment().ele('newtemp').txt("456")
+        ])
+
+        const result = merge([appendTemplate])
+
+        assertEquals(`
+            <wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+                <newtemp>456</newtemp>
+            </wpf:ResourceDictionary>
         `, result)
         expect(templateToRows).toHaveBeenCalledWith(appendTemplate)
     })

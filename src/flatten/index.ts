@@ -1,4 +1,4 @@
-import { NestedTemplate, Template } from './types'
+import { NestedTemplate, Template } from '../types'
 import { modify } from './modify-text'
 
 export function flattenTemplates(templates: NestedTemplate[]): Template[] {

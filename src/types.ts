@@ -15,3 +15,8 @@ export interface NestedTemplate {
     description?: TextModification
     settings?: {[key: string]: any}
 }
+
+export interface RunConfig {
+    targetFile: string
+    templates: NestedTemplate[]
+}

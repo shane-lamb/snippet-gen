@@ -1,5 +1,5 @@
-import { flattenTemplates } from './flatten-templates'
-import { Template, NestedTemplate } from './types'
+import { flattenTemplates } from './index'
+import { NestedTemplate } from '../types'
 
 describe('flatten templates', () => {
     it('abstract templates are not given an entry', () => {

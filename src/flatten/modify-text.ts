@@ -1,4 +1,4 @@
-import { TextModification } from './types';
+import { TextModification } from '../types';
 
 export function modify(text: string, modification: TextModification): string {
     if (typeof modification === 'string') {

@@ -21,8 +21,8 @@ describe('modify text', () => {
 
     it('does simple replace', () => {
         const modification = {
-            replaceme: 'b'
+            replaceMe: 'b'
         }
-        expect(modify('a replaceme c', modification)).toEqual('a b c');
+        expect(modify('a replaceMe c', modification)).toEqual('a b c');
     });
 })
