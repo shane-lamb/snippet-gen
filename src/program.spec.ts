@@ -1,12 +1,7 @@
-const process = {
+jest.mock('process', () => ({
     cwd: () => __dirname,
-    argv: [
-        '/usr/local/bin/node',
-        '/path/to/my/script.js',
-        '../test-resources/mock-rider-templates.js'
-    ]
-}
-jest.mock('process', () => process)
+    argv: ['', '', '../test-resources/mock-templates.js']
+}))
 const flattenTemplates = jest.fn()
 jest.mock('./flatten', () => ({ flattenTemplates }))
 const riderMerge = jest.fn()
@@ -16,20 +11,35 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { run } from './program'
 
+const outputPath = path.resolve(__dirname, '../temp/mock-output')
+
 describe('program', () => {
     beforeEach(() => {
         flattenTemplates.mockReset();
         riderMerge.mockReset();
         flattenTemplates.mockReturnValueOnce('flattenedTemplates')
     })
-    it('creates rider templates from scratch', () => {
-        riderMerge.mockReturnValueOnce('<a><b/></a>')
+    it('creates templates from scratch', () => {
+        if (fs.existsSync(outputPath)) {
+           fs.unlinkSync(outputPath)
+        }
+        riderMerge.mockReturnValueOnce('a')
 
         run()
 
         expect(flattenTemplates).toHaveBeenCalledWith('mock-templates')
         expect(riderMerge).toHaveBeenCalledWith('flattenedTemplates', undefined)
-        const result = fs.readFileSync(path.resolve(__dirname, '../temp/Test.DotSettings'), 'utf8')
-        expect(result).toEqual('<a><b/></a>')
+        const result = fs.readFileSync(outputPath, 'utf8')
+        expect(result).toEqual('a')
+    })
+    it('updates templates', () => {
+        riderMerge.mockReturnValueOnce('ab')
+
+        run()
+
+        expect(flattenTemplates).toHaveBeenCalledWith('mock-templates')
+        expect(riderMerge).toHaveBeenCalledWith('flattenedTemplates', 'a')
+        const result = fs.readFileSync(outputPath, 'utf8')
+        expect(result).toEqual('ab')
     })
 })

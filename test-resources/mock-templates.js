@@ -1,4 +1,4 @@
 module.exports = {
-    targetFile: '../temp/Test.DotSettings',
+    targetFile: '../temp/mock-output',
     templates: 'mock-templates'
 }
