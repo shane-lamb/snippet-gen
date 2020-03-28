@@ -19,5 +19,5 @@ export function merge(updated: Template[], existing?: string): string {
         }
         templateToRows(template).forEach(t => root.import(t))
     });
-    return xml.toString()
+    return xml.toString({prettyPrint:true})
 }
