@@ -14,8 +14,8 @@ function flattenTemplate(template: NestedTemplate, parent?: Template): Template[
 function mergeWithParent(child: NestedTemplate, parent?: Template): Template {
     return {
         shortcut: modify(parent?.shortcut || '', child.shortcut),
-        description: modify(parent?.description || '', child?.description || ''),
-        settings: [],
+        description: modify(parent?.description || '', child.description || ''),
+        settings: { ...(parent?.settings || {}), ...(child.settings || {})},
         template: modify(parent?.template || '', child.template)
     }
 }
