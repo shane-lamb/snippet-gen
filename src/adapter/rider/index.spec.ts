@@ -2,7 +2,7 @@ const templateToRows = jest.fn()
 jest.mock('./template-converter', () => ({ templateToRows }))
 
 import { merge } from './index'
-import { Template } from '../types'
+import { Template } from '../../types'
 import { fragment } from 'xmlbuilder2'
 
 const existing = `

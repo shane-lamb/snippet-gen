@@ -1,4 +1,4 @@
-import { Template } from '../types'
+import { Template } from '../../types'
 import { fragment } from 'xmlbuilder2'
 import { templateToRows } from './template-converter'
 

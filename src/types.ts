@@ -18,6 +18,9 @@ export interface NestedTemplate {
 export type NestedTemplates = {[shortcut: string]: NestedTemplate}
 
 export interface RunConfig {
+    adapter: string,
     targetFile: string
     templates: NestedTemplates
 }
+
+export type MergeFunc = (updated: Template[], existing?: string) => string

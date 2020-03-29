@@ -1,5 +1,5 @@
 import { fragment } from 'xmlbuilder2'
-import { Template } from '../types'
+import { Template } from '../../types'
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces'
 import * as crypto from 'crypto';
 

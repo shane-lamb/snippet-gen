@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { program } from 'commander'
 import { RunConfig } from './types'
-import { merge } from './rider'
+import { merge } from './adapter'
 import { flattenTemplates } from './flatten'
 
 const configuredProgram = program
@@ -16,7 +16,7 @@ const configuredProgram = program
         const target = fs.existsSync(targetPath) ?
             fs.readFileSync(targetPath, 'utf8') : undefined
         const flatTemplates = flattenTemplates(config.templates)
-        const merged = merge(flatTemplates, target)
+        const merged = merge(config.adapter, flatTemplates, target)
         fs.writeFileSync(targetPath, merged)
     })
 

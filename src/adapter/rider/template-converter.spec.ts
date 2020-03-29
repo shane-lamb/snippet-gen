@@ -2,7 +2,7 @@ const randomBytes = jest.fn()
 jest.mock('crypto', () => ({ randomBytes }))
 
 import { XMLBuilder } from 'xmlbuilder2/lib/interfaces'
-import { Template } from '../types'
+import { Template } from '../../types'
 import { templateToRows } from './template-converter'
 
 describe('rider template converter', () => {

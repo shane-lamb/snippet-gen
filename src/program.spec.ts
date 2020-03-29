@@ -4,8 +4,8 @@ jest.mock('process', () => ({
 }))
 const flattenTemplates = jest.fn()
 jest.mock('./flatten', () => ({ flattenTemplates }))
-const riderMerge = jest.fn()
-jest.mock('./rider', () => ({ merge: riderMerge }))
+const merge = jest.fn()
+jest.mock('./adapter', () => ({ merge }))
 
 import * as fs from 'fs'
 import * as path from 'path'
@@ -15,30 +15,30 @@ const outputPath = path.resolve(__dirname, '../temp/mock-output')
 
 describe('program', () => {
     beforeEach(() => {
-        flattenTemplates.mockReset();
-        riderMerge.mockReset();
+        flattenTemplates.mockReset()
+        merge.mockReset()
         flattenTemplates.mockReturnValueOnce('flattenedTemplates')
     })
     it('creates templates from scratch', () => {
         if (fs.existsSync(outputPath)) {
            fs.unlinkSync(outputPath)
         }
-        riderMerge.mockReturnValueOnce('a')
+        merge.mockReturnValueOnce('a')
 
         run()
 
         expect(flattenTemplates).toHaveBeenCalledWith('mock-templates')
-        expect(riderMerge).toHaveBeenCalledWith('flattenedTemplates', undefined)
+        expect(merge).toHaveBeenCalledWith('adapterName', 'flattenedTemplates', undefined)
         const result = fs.readFileSync(outputPath, 'utf8')
         expect(result).toEqual('a')
     })
     it('updates templates', () => {
-        riderMerge.mockReturnValueOnce('ab')
+        merge.mockReturnValueOnce('ab')
 
         run()
 
         expect(flattenTemplates).toHaveBeenCalledWith('mock-templates')
-        expect(riderMerge).toHaveBeenCalledWith('flattenedTemplates', 'a')
+        expect(merge).toHaveBeenCalledWith('adapterName', 'flattenedTemplates', 'a')
         const result = fs.readFileSync(outputPath, 'utf8')
         expect(result).toEqual('ab')
     })
