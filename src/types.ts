@@ -8,15 +8,16 @@ export interface Template {
 export type TextModification = string | {[key: string]: string}
 
 export interface NestedTemplate {
-    shortcut: string
     abstract?: boolean
     template: TextModification
-    children?: NestedTemplate[]
+    children?: NestedTemplates
     description?: TextModification
     settings?: {[key: string]: any}
 }
 
+export type NestedTemplates = {[shortcut: string]: NestedTemplate}
+
 export interface RunConfig {
     targetFile: string
-    templates: NestedTemplate[]
+    templates: NestedTemplates
 }
