@@ -7,7 +7,7 @@ export interface Template {
 
 export type TextModification = string | {[key: string]: string}
 
-export interface NestedTemplate {
+export interface ComplexNestedTemplate {
     abstract?: boolean
     template: TextModification
     children?: NestedTemplates
@@ -15,7 +15,9 @@ export interface NestedTemplate {
     settings?: {[key: string]: any}
 }
 
-export type NestedTemplates = {[shortcut: string]: NestedTemplate}
+export type NestedTemplate = ComplexNestedTemplate | string
+
+export type NestedTemplates = {[shortcut: string]: NestedTemplate} | string
 
 export interface RunConfig {
     adapter: string,

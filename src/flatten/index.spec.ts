@@ -41,4 +41,22 @@ describe('flatten templates', () => {
         expect(result[0].settings).toEqual({ a: 1, b: 2 });
         expect(result[1].settings).toEqual({ a: 3, b: 2, c: 1 });
     })
+    it('can simply use string in place of complex template', () => {
+        const input: NestedTemplates = {
+            p: {
+                template: 't',
+                abstract: true,
+                children: {
+                    c: '1'
+                }
+            },
+            a: 't2'
+        }
+
+        const result = flattenTemplates(input);
+
+        expect(result).toHaveLength(2);
+        expect(result[0].template).toEqual('t1');
+        expect(result[1].template).toEqual('t2');
+    })
 })
