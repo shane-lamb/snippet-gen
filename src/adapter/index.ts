@@ -1,11 +1,11 @@
 import { MergeFunc, Template } from '../types'
 
 import { merge as rider } from './rider'
-import { merge as fishAbbr } from './fish-abbr'
+import { merge as fish } from './fish-alias'
 
 const lookup: {[adapterName: string]: MergeFunc} = {
     'rider': rider,
-    'fish-abbr': fishAbbr
+    'fish-alias': fish
 }
 
 export function merge(adapter: string, updated: Template[], existing?: string): string {

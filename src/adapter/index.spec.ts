@@ -1,7 +1,7 @@
 const riderMerge = jest.fn()
 jest.mock('./rider', () => ({ merge: riderMerge }))
-const fishAbbrMerge = jest.fn()
-jest.mock('./fish-abbr', () => ({ merge: fishAbbrMerge }))
+const fishMerge = jest.fn()
+jest.mock('./fish-alias', () => ({ merge: fishMerge }))
 
 import { merge } from './index'
 
@@ -11,9 +11,9 @@ describe('getting adapters', () => {
         expect(merge('rider', [], 'existing')).toBe('result')
         expect(riderMerge).toHaveBeenCalledWith([], 'existing')
     });
-    it('gets fish-abbr', function () {
-        fishAbbrMerge.mockReturnValueOnce('result')
-        expect(merge('fish-abbr', [], 'existing')).toBe('result')
-        expect(fishAbbrMerge).toHaveBeenCalledWith([], 'existing')
+    it('gets fish-alias', function () {
+        fishMerge.mockReturnValueOnce('result')
+        expect(merge('fish-alias', [], 'existing')).toBe('result')
+        expect(fishMerge).toHaveBeenCalledWith([], 'existing')
     });
 })
