@@ -16,10 +16,11 @@ function flattenTemplate(child: [string, NestedTemplate], parent?: Template): Te
 
 function mergeWithParent(child: [string, ComplexNestedTemplate], parent?: Template): Template {
     const [shortcut, template] = child
+    const settings = { ...(parent?.settings || {}), ...(template.settings || {})}
     return {
         shortcut: modify(parent?.shortcut || '', shortcut),
         description: modify(parent?.description || '', template.description || ''),
-        settings: { ...(parent?.settings || {}), ...(template.settings || {})},
-        template: modify(parent?.template || '', template.template, template.settings?.separator)
+        settings,
+        template: modify(parent?.template || '', template.template, settings.separator)
     }
 }
