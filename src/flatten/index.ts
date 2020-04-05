@@ -20,6 +20,6 @@ function mergeWithParent(child: [string, ComplexNestedTemplate], parent?: Templa
         shortcut: modify(parent?.shortcut || '', shortcut),
         description: modify(parent?.description || '', template.description || ''),
         settings: { ...(parent?.settings || {}), ...(template.settings || {})},
-        template: modify(parent?.template || '', template.template)
+        template: modify(parent?.template || '', template.template, template.settings?.separator)
     }
 }

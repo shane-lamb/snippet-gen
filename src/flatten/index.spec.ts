@@ -59,4 +59,24 @@ describe('flatten templates', () => {
         expect(result[0].template).toEqual('t1');
         expect(result[1].template).toEqual('t2');
     })
+    it('makes use of separator, if provided', () => {
+       const input: NestedTemplates = {
+           p: {
+               template: 't',
+               abstract: true,
+               children: {
+                   c: {
+                       template: '1',
+                       settings: {
+                           separator: ' '
+                       }
+                   }
+               }
+           }
+       }
+
+       const result = flattenTemplates(input);
+
+       expect(result[0].template).toEqual('t 1');
+    })
 })
