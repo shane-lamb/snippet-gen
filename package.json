@@ -4,7 +4,8 @@
   "description": "generate snippets/templates for IDEs using a concise definition",
   "main": "src/index.ts",
   "scripts": {
-    "test": "./node_modules/.bin/jest"
+    "test": "./node_modules/.bin/jest",
+    "build": "./node_modules/.bin/tsc"
   },
   "keywords": [
     "snippet",

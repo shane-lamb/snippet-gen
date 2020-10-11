@@ -1,5 +1,6 @@
 module.exports = {
     targetFile: './LiveTemplates.DotSettings',
+    adapter: 'rider',
     templates: [
         {
             shortcut: 'a',
