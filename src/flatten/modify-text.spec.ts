@@ -1,5 +1,4 @@
 import { modify } from './modify-text'
-import exp from 'constants'
 
 describe('modify text', () => {
     it('does implicit append', () => {
@@ -24,7 +23,7 @@ describe('modify text', () => {
         const modification = {
             replaceMe: 'b'
         }
-        expect(modify('a replaceMe c', modification)).toEqual('a b c')
+        expect(modify('a replaceMe c replaceMe', modification)).toEqual('a b c b')
     });
 
     it('appends using separator', () => {

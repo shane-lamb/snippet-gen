@@ -13,5 +13,6 @@ export function merge(updated: Template[], existing?: string): string {
         }
         root.import(templateToXml(template))
     });
-    return xml.toString({prettyPrint:true})
+    const result = xml.toString({prettyPrint:true})
+    return result.replace(/&amp;#10;/g, '&#10;')
 }

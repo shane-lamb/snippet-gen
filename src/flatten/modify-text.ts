@@ -11,7 +11,7 @@ export function modify(text: string, modification: TextModification, separator: 
             case 'prepend':
                 return join(value, text, separator)
             default:
-                return text.replace(key, value)
+                return text.replace(RegExp(key, 'g'), value)
         }
     }, text);
 }

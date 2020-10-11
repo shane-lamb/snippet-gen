@@ -9,7 +9,7 @@ interface Settings {
 export function templateToXml(template: Template): XMLBuilder {
     const rootNode = fragment().ele('template', {
         name: template.shortcut,
-        value: template.template.replace('\n', '&#10;'),
+        value: template.template.replace(/\n/g, '&#10;'),
         description: template.description,
         toReformat: 'true',
         toShortenFQNames: 'true'

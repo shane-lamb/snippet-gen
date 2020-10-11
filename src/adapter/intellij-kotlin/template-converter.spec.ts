@@ -16,7 +16,7 @@ describe('kotlin template converter', () => {
         const result = templateToXml(input)
 
         assertEquals(`
-          <template name="void" value="fun $NAME$($PARAMS$) {&#10;$END$&#10;}" description="Function returning nothing" toReformat="true" toShortenFQNames="true">
+          <template name="void" value="fun $NAME$($PARAMS$) {&amp;#10;$END$&amp;#10;}" description="Function returning nothing" toReformat="true" toShortenFQNames="true">
             <context>
               <option name="KOTLIN_CLASS" value="true"/>
               <option name="KOTLIN_STATEMENT" value="true"/>

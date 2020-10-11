@@ -71,4 +71,16 @@ describe('kotlin adapter', () => {
         `, result)
         expect(templateToXml).toHaveBeenCalledWith(appendTemplate)
     })
+    it('fixes newline issue', () => {
+        templateToXml.mockReturnValueOnce(fragment().ele('newtemp', {value: 'a&#10;b&#10;'}))
+
+        const result = merge([appendTemplate])
+
+        assertEquals(`
+            <templateSet group="Kotlin">
+              <newtemp value="a&#10;b&#10;"/>
+            </templateSet>
+        `, result)
+        expect(templateToXml).toHaveBeenCalledWith(appendTemplate)
+    })
 })
