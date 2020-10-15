@@ -1,7 +1,7 @@
 import { merge } from './index'
 import { Template } from '../../types'
 
-describe('templates to fish abbreviations', () => {
+describe('templates to fish aliases/abbreviations', () => {
     it('does abbr', () => {
         const templates: Template[] = [{
             shortcut: 'g',
