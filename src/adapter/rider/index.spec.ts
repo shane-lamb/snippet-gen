@@ -22,7 +22,8 @@ const template: Template = {
 
 export function assertEquals(expected: string, actual: string) {
     expected = expected.split('\n').map(x => x.trim()).filter(Boolean).join('')
-    expect(actual.split('\n').map(x => x.trim()).join()).toEqual(expected)
+    actual = actual.split('\n').map(x => x.trim()).join('')
+    expect(actual).toEqual(expected)
 }
 
 describe('rider adapter', () => {

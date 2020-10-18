@@ -11,5 +11,5 @@ export function merge(updated: Template[], existing?: string): string {
     root.elements = (root.elements || [])
         .filter(e => !e.attributes?.['x:Key']?.toString().startsWith('/Default/PatternsAndTemplates/LiveTemplates/Template/='))
         .concat(...updated.map(x => templateToRows(x)))
-    return js2xml(xml);
+    return js2xml(xml, {spaces: 4});
 }
