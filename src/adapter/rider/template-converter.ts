@@ -1,25 +1,40 @@
-import { fragment } from 'xmlbuilder2'
 import { Template } from '../../types'
-import { XMLBuilder } from 'xmlbuilder2/lib/interfaces'
-import * as crypto from 'crypto';
+import * as crypto from 'crypto'
+import { Element } from 'xml-js'
 
-export function templateToRows(template: Template): XMLBuilder[] {
+export function templateToRows(template: Template): Element[] {
     const baseKey = `/Default/PatternsAndTemplates/LiveTemplates/Template/=${generateId()}/`
     const scopeBaseKey = baseKey + `Scope/=${generateId()}/`
     return [
-        fragment().ele('s:String', {'x:Key': baseKey + 'Shortcut/@EntryValue'}).txt(template.shortcut),
-        fragment().ele('s:Boolean', {'x:Key': baseKey + 'ShortenQualifiedReferences/@EntryValue'}).txt('True'),
-        fragment().ele('s:String', {'x:Key': baseKey + 'Text/@EntryValue'}).txt(template.template),
-        fragment().ele('s:Boolean', {'x:Key': baseKey + '@KeyIndexDefined'}).txt('True'),
-        fragment().ele('s:Boolean', {'x:Key': baseKey + 'Applicability/=Live/@EntryIndexedValue'}).txt('True'),
-        fragment().ele('s:String', {'x:Key': baseKey + 'Description/@EntryValue'}).txt(template.description),
-        fragment().ele('s:Boolean', {'x:Key': baseKey + 'Reformat/@EntryValue'}).txt('True'),
-        fragment().ele('s:Boolean', {'x:Key': scopeBaseKey + '@KeyIndexDefined'}).txt('True'),
-        fragment().ele('s:String', {'x:Key': scopeBaseKey + 'CustomProperties/=minimumLanguageVersion/@EntryIndexedValue'}).txt('2.0'),
-        fragment().ele('s:String', {'x:Key': scopeBaseKey + 'Type/@EntryValue'}).txt(template.settings['context'] || 'InCSharpFile'),
+        element('s:String', baseKey + 'Shortcut/@EntryValue', template.shortcut),
+        element('s:Boolean', baseKey + 'ShortenQualifiedReferences/@EntryValue', 'True'),
+        element('s:String', baseKey + 'Text/@EntryValue', template.template),
+        element('s:Boolean', baseKey + '@KeyIndexDefined', 'True'),
+        element('s:Boolean', baseKey + 'Applicability/=Live/@EntryIndexedValue', 'True'),
+        element('s:String', baseKey + 'Description/@EntryValue', template.description),
+        element('s:Boolean', baseKey + 'Reformat/@EntryValue', 'True'),
+        element('s:Boolean', scopeBaseKey + '@KeyIndexDefined', 'True'),
+        element('s:String', scopeBaseKey + 'CustomProperties/=minimumLanguageVersion/@EntryIndexedValue', '2.0'),
+        element('s:String', scopeBaseKey + 'Type/@EntryValue', template.settings['context'] || 'InCSharpFile'),
     ];
 }
 
 function generateId(): string {
     return crypto.randomBytes(16).toString('hex');
+}
+
+function element(name: string, xKey: string, text: string): Element {
+    return {
+        type: 'element',
+        name,
+        attributes: {
+            ['x:Key']: xKey
+        },
+        elements: [
+            {
+                type: 'text',
+                text
+            }
+        ]
+    }
 }

@@ -1,33 +1,27 @@
 const templateToRows = jest.fn()
-jest.mock('./template-converter', () => ({ templateToRows }))
+jest.mock('./template-converter', () => ({templateToRows}))
 
 import { merge } from './index'
 import { Template } from '../../types'
-import { fragment } from 'xmlbuilder2'
+import { Element } from "xml-js";
 
 const existing = `
     <anything key="123">
         <s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Shortcut/@EntryValue">ae</s:String>
+        <something>else</something>
         <s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Anything">True</s:Boolean>
     </anything>
 `
 
-const overrideTemplate: Template = {
+const template: Template = {
     shortcut: 'ae',
     template: '',
     description: '',
     settings: {}
 }
 
-const appendTemplate: Template = {
-    shortcut: 'mv',
-    template: '',
-    description: '',
-    settings: {}
-}
-
 export function assertEquals(expected: string, actual: string) {
-    expected = expected.split('\n').map(x => x.trim()).filter(Boolean).join()
+    expected = expected.split('\n').map(x => x.trim()).filter(Boolean).join('')
     expect(actual.split('\n').map(x => x.trim()).join()).toEqual(expected)
 }
 
@@ -35,48 +29,46 @@ describe('rider adapter', () => {
     beforeEach(() => {
         templateToRows.mockReset();
     })
-    it('updates existing', () => {
+    it('updates existing xml', () => {
         templateToRows.mockReturnValueOnce([
-            fragment().ele('overridetemp').txt("456")
+            element('sometemplate', 'stuff')
         ])
-        
-        const result = merge([overrideTemplate], existing)
+
+        const result = merge([template], existing)
 
         assertEquals(`
             <anything key="123">
-                <overridetemp>456</overridetemp>
+                <something>else</something>
+                <sometemplate>stuff</sometemplate>
             </anything>
         `, result)
-        expect(templateToRows).toHaveBeenCalledWith(overrideTemplate)
+        expect(templateToRows).toHaveBeenCalledWith(template)
     })
-    it('adds new', () => {
+    it('creates xml from scratch', () => {
         templateToRows.mockReturnValueOnce([
-            fragment().ele('newtemp').txt("456")
-        ])
-        
-        const result = merge([appendTemplate], existing)
-
-        assertEquals(`
-            <anything key="123">
-                <s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Shortcut/@EntryValue">ae</s:String>
-                <s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Anything">True</s:Boolean>
-                <newtemp>456</newtemp>
-            </anything>
-        `, result)
-        expect(templateToRows).toHaveBeenCalledWith(appendTemplate)
-    })
-    it('adds without existing content', () => {
-        templateToRows.mockReturnValueOnce([
-            fragment().ele('newtemp').txt("456")
+            element('sometemplate', 'stuff')
         ])
 
-        const result = merge([appendTemplate])
+        const result = merge([template])
 
         assertEquals(`
             <wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-                <newtemp>456</newtemp>
+                <sometemplate>stuff</sometemplate>
             </wpf:ResourceDictionary>
         `, result)
-        expect(templateToRows).toHaveBeenCalledWith(appendTemplate)
+        expect(templateToRows).toHaveBeenCalledWith(template)
     })
 })
+
+function element(name: string, text: string): Element {
+    return {
+        type: 'element',
+        name,
+        elements: [
+            {
+                type: 'text',
+                text
+            }
+        ]
+    }
+}

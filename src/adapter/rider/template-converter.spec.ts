@@ -1,9 +1,9 @@
 const randomBytes = jest.fn()
-jest.mock('crypto', () => ({ randomBytes }))
+jest.mock('crypto', () => ({randomBytes}))
 
-import { XMLBuilder } from 'xmlbuilder2/lib/interfaces'
 import { Template } from '../../types'
 import { templateToRows } from './template-converter'
+import { Element, js2xml } from 'xml-js'
 
 describe('rider template converter', () => {
     beforeEach(() => {
@@ -49,14 +49,14 @@ describe('rider template converter', () => {
 
         const result = templateToRows(input)
 
-        expect(result.map(x => x.toString())).toContain(
+        expect(js2xml({elements: result})).toContain(
             '<s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Scope/=2C285F182AC98D44B0B4F29D4D2149EC/Type/@EntryValue">InCSharpFile</s:String>'
         )
     })
 })
 
-function assertEquals(expected: string, actual: XMLBuilder[]) {
-    const expectedStrings = expected.split('\n').map(x => x.trim()).filter(Boolean)
-    const actualStrings = actual.map(x => x.toString())
-    expect(actualStrings).toIncludeSameMembers(expectedStrings)
+function assertEquals(expected: string, actual: Element[]) {
+    const expectedStrings = expected.split('\n').map(x => x.trim()).filter(Boolean).join('')
+    const actualStrings = js2xml({elements: actual})
+    expect(actualStrings).toEqual(expectedStrings)
 }
