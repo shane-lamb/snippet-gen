@@ -21,10 +21,12 @@ describe('modify text', () => {
 
     it('does simple replace', () => {
         const modification = {
-            replaceMe: 'b'
+            $replaceMe$: 'b'
         }
-        expect(modify('a replaceMe c replaceMe', modification)).toEqual('a b c b')
+        expect(modify('a $replaceMe$ c $replaceMe$', modification)).toEqual('a b c b')
     });
+
+    // todo: regex replace?
 
     it('appends using separator', () => {
         expect(modify('a', 'b', ' ')).toEqual('a b')
