@@ -6,13 +6,14 @@ import { RunConfig } from './types'
 import { merge } from './adapter'
 import { flattenTemplates } from './flatten'
 
-const configuredProgram = program
-    .command('<file>')
+program
+    .arguments('<configFile>')
+    .option('-t, --targetFile <targetFile>', 'path to target/output file')
     .description('generate templates from definition file')
-    .action((_, [configRelativePath]) => {
+    .action((configRelativePath: string, options: {[optionName: string]: string}) => {
         const configPath = path.resolve(process.cwd(), configRelativePath)
         const config: RunConfig = require(configPath)
-        const targetPath = path.resolve(configPath, '../', config.targetFile)
+        const targetPath = path.resolve(configPath, '../', options.targetFile || config.targetFile)
         const target = fs.existsSync(targetPath) ?
             fs.readFileSync(targetPath, 'utf8') : undefined
         const flatTemplates = flattenTemplates(config.templates)
@@ -21,5 +22,5 @@ const configuredProgram = program
     })
 
 export function run() {
-    configuredProgram.parse(process.argv)
+    program.parse(process.argv)
 }
