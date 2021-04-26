@@ -13,7 +13,7 @@ describe('rider template converter', () => {
             .mockReturnValueOnce('2C285F182AC98D44B0B4F29D4D2149EC')
     })
 
-    it('converts row', () => {
+    it('converts example correctly', () => {
         const input: Template = {
             template: 'Assert.Equal($EXPECTED$, $ACTUAL$);$END$',
             description: 'Assert.Equal()',
@@ -36,8 +36,16 @@ describe('rider template converter', () => {
             <s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/ShortenQualifiedReferences/@EntryValue">True</s:Boolean>
             <s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Text/@EntryValue">Assert.Equal($EXPECTED$, $ACTUAL$);$END$</s:String>
             <s:String x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Description/@EntryValue">Assert.Equal()</s:String>
+            <s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Field/=EXPECTED/@KeyIndexDefined">True</s:Boolean>
+            <s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Field/=EXPECTED/Order/@EntryValue">0</s:Int64>
+            <s:Boolean x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Field/=ACTUAL/@KeyIndexDefined">True</s:Boolean>
+            <s:Int64 x:Key="/Default/PatternsAndTemplates/LiveTemplates/Template/=483DA23FE5010B45942DD5877D9DDE2D/Field/=ACTUAL/Order/@EntryValue">1</s:Int64>
         `, result)
     })
+
+    // todo: accept variable names with digits & underscores, currently only accepts letters
+
+    // todo: custom ordering of variables
 
     it('uses global context when missing', () => {
         const input: Template = {

@@ -5,6 +5,11 @@ import { Element } from 'xml-js'
 export function templateToRows(template: Template): Element[] {
     const baseKey = `/Default/PatternsAndTemplates/LiveTemplates/Template/=${generateId()}/`
     const scopeBaseKey = baseKey + `Scope/=${generateId()}/`
+
+    const variables = (template.template.match(/\$\w+\$/g) || [])
+        .map(variable => variable.replace(/\$/g, ''))
+        .filter(variable => variable !== 'END')
+
     return [
         element('s:Boolean', baseKey + '@KeyIndexDefined', 'True'),
         element('s:Boolean', baseKey + 'Applicability/=Live/@EntryIndexedValue', 'True'),
@@ -16,7 +21,10 @@ export function templateToRows(template: Template): Element[] {
         element('s:Boolean', baseKey + 'ShortenQualifiedReferences/@EntryValue', 'True'),
         element('s:String', baseKey + 'Text/@EntryValue', template.template),
         element('s:String', baseKey + 'Description/@EntryValue', template.description),
-    ];
+    ].concat(variables.flatMap((variable, index) => [
+        element('s:Boolean', baseKey + `Field/=${variable}/@KeyIndexDefined`, 'True'),
+        element('s:Int64', baseKey + `Field/=${variable}/Order/@EntryValue`, `${index}`)
+    ]))
 }
 
 function generateId(): string {
